@@ -34,16 +34,27 @@ export class DepartmentService {
   }
 
   /**
-   * Retrieve all departments associated with the authenticated user.
+   * Retrieve a paginated list of departments associated with the authenticated user.
    * @param user - The user attempting to retrieve the departments.
-   * @returns All departments associated with the user.
+   * @param page - The current page of departments.
+   * @param limit - The number of departments per page.
+   * @returns A paginated list of departments associated with the user.
    */
-  async findAll(user: User): Promise<Department[]> {
+  async findAll(
+    user: User,
+    page: number = 1,
+    limit: number = 10,
+  ): Promise<Department[]> {
+    // Ensure that the page and limit are valid
+    const skip = (page - 1) * limit;
+
     return await this.departmentRepository.find({
       where: {
         createdBy: { id: user.id }, // Only departments created by this user
       },
       relations: ['createdBy', 'subDepartments'], // Include sub-departments in the relations
+      take: limit, // Number of departments to retrieve
+      skip: skip, // Skip departments based on the current page
     });
   }
 

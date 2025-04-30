@@ -30,13 +30,20 @@ export class DepartmentResolver {
   }
 
   /**
-   * Returns a list of departments for the currently authenticated user.
-   * @returns A list of departments that the current user has created.
+   * Retrieve a paginated list of departments for the currently authenticated user.
+   * @param user - The user attempting to retrieve the departments.
+   * @param page - The page number (default is 1).
+   * @param limit - The number of departments per page (default is 10).
+   * @returns A paginated list of departments created by the current user.
    */
   @UseGuards(GqlAuthGuard)
   @Query(() => [Department])
-  getDepartments(@CurrentUser() user: User): Promise<Department[]> {
-    return this.departmentService.findAll(user);
+  getDepartments(
+    @CurrentUser() user: User, // Retrieve the currently authenticated user
+    @Args('page', { type: () => Int, defaultValue: 1 }) page: number, // Page number (optional, default is 1)
+    @Args('limit', { type: () => Int, defaultValue: 10 }) limit: number, // Number of departments per page (optional, default is 10)
+  ): Promise<Department[]> {
+    return this.departmentService.findAll(user, page, limit); // Pass page and limit to service method
   }
 
   /**

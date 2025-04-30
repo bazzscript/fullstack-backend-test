@@ -1,99 +1,287 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# Project Name
+Full Stack Engineer Assignment
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This project provides a backend system for managing departments, users, and their relationships. It supports features like user authentication (sign up and login), department creation, updates, pagination of departments, and bulk delete operations (including cascading effects on sub-departments).
 
-## Project setup
+## Project Setup
+
+Before running the project, make sure you have the following prerequisites installed:
+
+- **Node.js** (version 22.x)
+- **Yarn** (for package management)
+
+### Install Dependencies
+
+To install all the necessary dependencies for the project, run the following command in the project’s root directory:
 
 ```bash
 $ yarn install
 ```
 
-## Compile and run the project
+This will install all required packages and dependencies specified in the `package.json` file.
+
+### Configure Environment Variables
+
+Before running the app, ensure that the environment variables are set up correctly. You may need to create a `.env` file in the root directory of the project, based on the example `.env.example` file.
+
+### Compile and Run the Project
+
+Once the dependencies are installed and environment variables are set up, you can start the application.
+
+#### Development Mode (with auto-reload):
 
 ```bash
-# development
-$ yarn run start
-
-# watch mode
 $ yarn run start:dev
+```
 
-# production mode
+This will run the app in development mode with auto-reloading enabled.
+
+#### Production Mode:
+
+To run the app in production mode (after building it):
+
+```bash
 $ yarn run start:prod
 ```
 
-## Run tests
+This will start the app in production mode. Ensure you’ve built the app first by running `yarn build`.
 
-```bash
-# unit tests
-$ yarn run test
+## Example GraphQL Queries & Mutations
 
-# e2e tests
-$ yarn run test:e2e
+Here are some example queries and mutations for testing the app’s functionality. Make sure to use them after signing up or logging in to get the required access token.
 
-# test coverage
-$ yarn run test:cov
+### Login Mutation
+
+This mutation logs in a user by providing the correct username and password.
+
+```graphql
+mutation {
+  login(input: { username: "bezz", password: "secret123" }) {
+    accessToken
+    username
+  }
+}
+```
+
+- **Response Example:**
+
+```json
+{
+  "data": {
+    "login": {
+      "accessToken": "your_access_token_here",
+      "username": "bezz"
+    }
+  }
+}
+```
+
+### Signup Mutation
+
+This mutation creates a new user.
+
+```graphql
+mutation {
+  signup(input: { username: "bezz", password: "secret123" }) {
+    accessToken
+    username
+  }
+}
+```
+
+- **Response Example:**
+
+```json
+{
+  "data": {
+    "signup": {
+      "accessToken": "your_access_token_here",
+      "username": "bezz"
+    }
+  }
+}
+```
+
+### Get Departments Query (with Pagination)
+
+This query retrieves a list of departments, supporting pagination.
+
+```graphql
+query {
+  getDepartments(page: 1, limit: 2) {
+    id
+    name
+    createdBy {
+      id
+      username
+    }
+    subDepartments {
+      id
+      name
+    }
+  }
+}
+```
+
+- **Response Example:**
+
+```json
+{
+  "data": {
+    "getDepartments": [
+      {
+        "id": 1,
+        "name": "Department A",
+        "createdBy": {
+          "id": 1,
+          "username": "bezz"
+        },
+        "subDepartments": [
+          {
+            "id": 2,
+            "name": "SubDepartment 1"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Create Department with Sub-departments Mutation
+
+This mutation creates a department with sub-departments.
+
+```graphql
+mutation createDepartment {
+  createDepartment(input: {
+    name: "BioInformatic",
+    subDepartments: [
+      { name: "Class 1" }
+    ]
+  }) {
+    id
+    name
+    subDepartments {
+      id
+      name
+    }
+  }
+}
+```
+
+- **Response Example:**
+
+```json
+{
+  "data": {
+    "createDepartment": {
+      "id": 1,
+      "name": "BioInformatic",
+      "subDepartments": [
+        {
+          "id": 1,
+          "name": "Class 1"
+        }
+      ]
+    }
+  }
+}
+```
+
+### Create Department without Sub-departments Mutation
+
+This mutation creates a department without any sub-departments.
+
+```graphql
+mutation createDepartment {
+  createDepartment(input: {
+    name: "BioInformatisian"
+  }) {
+    id
+    name
+    subDepartments {
+      id
+      name
+    }
+  }
+}
+```
+
+- **Response Example:**
+
+```json
+{
+  "data": {
+    "createDepartment": {
+      "id": 2,
+      "name": "BioInformatisian",
+      "subDepartments": []
+    }
+  }
+}
+```
+
+### Update Department Mutation
+
+This mutation updates the name of an existing department.
+
+```graphql
+mutation UpdateDepartment {
+  updateDepartment(input: {
+    id: 3,
+    name: "New Department Na"
+  }) {
+    id
+    name
+  }
+}
+```
+
+- **Response Example:**
+
+```json
+{
+  "data": {
+    "updateDepartment": {
+      "id": 3,
+      "name": "New Department Na"
+    }
+  }
+}
+```
+
+### Bulk Delete Departments Mutation
+
+This mutation deletes multiple departments in bulk, including cascading deletions of any sub-departments.
+
+```graphql
+mutation DeleteDepartments {
+  deleteDepartments(ids: [1, 3, 12])
+}
+```
+
+- **Response Example:**
+
+```json
+{
+  "data": {
+    "deleteDepartments": true
+  }
+}
 ```
 
 ## Deployment
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+The project is deployed and hosted on **Render.com**. You can access the live version of the application here:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+- **[Render.com Link](https://your-app-link-on-render.com)**
 
-```bash
-$ yarn install -g mau
-$ mau deploy
-```
+## Stay in Touch
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+- **Author:** [Bezaleel Nwabia](https://ng.linkedin.com/in/bezaleel-nwabia)
 
-## Resources
+If you encounter any issues, feel free to open an issue in the repository, and I will try to assist you.
 
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
