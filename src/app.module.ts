@@ -36,6 +36,8 @@ import { DepartmentModule } from './department/department.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver, // Specify the ApolloDriver
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      csrfPrevention: true, // safe for production
+      introspection: true, // needed for Sandbox
       context: ({ req }: { req: Request }) => ({ req }), // Needed for extracting JWT from request
     }),
 
