@@ -20,8 +20,6 @@ export class GqlAuthGuard extends AuthGuard('jwt') {
     // Safely cast the request object to Express Request type
     const req = gqlContext.getContext<{ req: Request }>().req;
 
-    console.log('req header', req.headers.authorization);
-
     return req;
   }
 }

@@ -25,6 +25,19 @@ export class DepartmentService {
    * @param user - The user creating the department.
    */
   async create(input: CreateDepartmentInput, user: User): Promise<Department> {
+    // confirm no department already have the same name
+    const existingDepartment = await this.departmentRepository.findOne({
+      where: {
+        name: input.name,
+      },
+    });
+
+    if (existingDepartment) {
+      throw new BadRequestException(
+        'A department with this name already exists, try another name',
+      );
+    }
+
     const department = this.departmentRepository.create({
       ...input,
       createdBy: user, // Set the current user as the creator
