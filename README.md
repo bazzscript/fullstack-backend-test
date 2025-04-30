@@ -48,6 +48,31 @@ $ yarn run start:prod
 
 This will start the app in production mode. Ensure you’ve built the app first by running `yarn build`.
 
+---
+
+## 🚀 Live API Testing (Apollo Sandbox)
+
+You can interact with the live API using Apollo's GraphQL sandbox.
+
+> **Sandbox URL:**  
+> [https://studio.apollographql.com/sandbox/explorer](https://studio.apollographql.com/sandbox/explorer)
+
+### To test:
+1. Open the URL above.
+2. In the input field for GraphQL Endpoint, paste:
+
+```
+https://fullstack-backend-test-aw0t.onrender.com/graphql
+```
+
+3. Start writing and running queries/mutations.
+
+
+
+## Alternative Way To Test In Local Development (This doesnt work in the live link)
+Goto [http://localhost:5006/graphql](http://localhost:5006/graphql) to Access the playground
+
+---
 ## Example GraphQL Queries & Mutations
 
 Here are some example queries and mutations for testing the app’s functionality. Make sure to use them after signing up or logging in to get the required access token.
