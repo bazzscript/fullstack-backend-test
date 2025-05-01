@@ -302,7 +302,7 @@ mutation DeleteDepartments {
 
 The project is deployed and hosted on **Render.com**. You can access the live version of the application here:
 
-- **[Render.com Link](https://your-app-link-on-render.com)**
+- **[https://fullstack-backend-test-aw0t.onrender.com](https://fullstack-backend-test-aw0t.onrender.com)**
 
 ## Stay in Touch
 
